@@ -1,114 +1,1109 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Java Core Tools – Bytecode, Stacktrace & Debugging Analysis</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+<meta name="robots" content="index, follow">
 
-  <!-- Google verification -->
-  <meta name="google-site-verification" content="PkLa_ViOo6FAHpvh8SacceMb95o9tePRdrqLNBz9X1M" />
+<title>Analyze Java Code – Free Java Static Code Analyzer &amp; Debugger Tool</title>
 
-  <!-- SEO -->
-  <meta name="description" content="Java core tools for analyzing bytecode, class files, stacktraces, heap dumps, dependencies, and debugging exceptions in Java applications.">
-  <meta name="keywords" content="java debugging tools, java bytecode viewer, stacktrace analyzer java, heap dump analyzer java, java jar inspector, java exception parser">
+<meta name="description" content="Free Java code analyzer. Paste Java code to detect null pointer risks, resource leaks, common anti-patterns, missing exception handling, and code quality issues. Instant analysis, no install required.">
 
-  <!-- AdSense -->
-  <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX">
+<meta name="keywords" content="analyze java, analyzing java code, java code analyzer, java static analysis tool, java code quality checker, java null pointer detection, java anti-patterns, java code review tool, java exception analyzer, java stacktrace analyzer">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Java Core Tools – Debugging & Internal Analysis">
-  <meta property="og:description" content="Analyze Java bytecode, stacktraces, heap dumps, and exceptions.">
-  <meta property="og:type" content="website">
+<link rel="canonical" href="https://franrivalbigprojects.github.io/java-core-tools/">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #020617;
-      color: #e2e8f0;
-      margin: 0;
-      padding: 40px;
+<meta property="og:title" content="Analyze Java Code – Free Java Static Analyzer">
+<meta property="og:description" content="Paste Java code to detect null pointer risks, resource leaks, missing exception handling, and anti-patterns. Free, no install.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #060810;
+  --surface: #09101a;
+  --surface2: #0e1624;
+  --border: #141e30;
+  --border2: #1a2840;
+  --java: #e76f00;
+  --java-dim: rgba(231,111,0,0.12);
+  --java-dim2: rgba(231,111,0,0.05);
+  --java-glow: rgba(231,111,0,0.18);
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,0.1);
+  --green-dim2: rgba(34,197,94,0.05);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.1);
+  --yellow: #fbbf24;
+  --yellow-dim: rgba(251,191,36,0.08);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.08);
+  --text: #b8cce0;
+  --text-muted: #3a5570;
+  --text-dim: #0f1e30;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', sans-serif;
+  --r: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 44px 44px;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  border-bottom: 1px solid var(--border2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(6,8,16,0.96);
+  backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-pill {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--java);
+  background: var(--java-dim2);
+  border: 1px solid rgba(231,111,0,0.3);
+  border-radius: 3px;
+  padding: 3px 9px;
+}
+
+.logo-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.logo-text strong { color: var(--java); font-weight: 500; }
+
+.wrapper {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* HERO */
+.hero {
+  padding: 48px 0 32px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 24px;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--java);
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+h1 {
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 em { font-style: normal; color: var(--java); }
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-muted);
+  max-width: 620px;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.hero-sub strong { color: var(--text); }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+
+.pill-j  { color: var(--java); background: var(--java-dim2); border-color: rgba(231,111,0,0.3); }
+.pill-dim { color: var(--text-muted); border-color: var(--border2); }
+
+/* TOOL */
+.tool-shell {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-bottom: 18px;
+  box-shadow: 0 0 40px rgba(231,111,0,0.04);
+}
+
+.tool-topbar {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border2);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.topbar-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn-sm {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid;
+  transition: opacity 0.15s;
+  background: transparent;
+}
+
+.btn-sm:hover { opacity: 0.75; }
+.btn-ghost { color: var(--text-muted); border-color: var(--border2); }
+.btn-java  { color: var(--java); border-color: rgba(231,111,0,0.3); background: var(--java-dim2); }
+
+/* SPLIT */
+.editor-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 380px;
+}
+
+.pane-left {
+  border-right: 1px solid var(--border2);
+  display: flex;
+  flex-direction: column;
+}
+
+.pane-head {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-dim);
+  padding: 7px 14px;
+  border-bottom: 1px solid var(--border2);
+  background: var(--surface2);
+  display: flex;
+  justify-content: space-between;
+}
+
+.java-textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 330px;
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.65;
+  background: var(--bg);
+  border: none;
+  color: var(--text);
+  resize: none;
+  tab-size: 4;
+}
+
+.java-textarea:focus { outline: none; }
+
+.pane-right {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#resultsPane {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  min-height: 330px;
+}
+
+.idle-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: center;
+  gap: 8px;
+}
+
+/* ACTION BAR */
+.action-bar {
+  padding: 12px 18px;
+  border-top: 1px solid var(--border2);
+  background: var(--surface2);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-analyze {
+  padding: 10px 26px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--java);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: opacity 0.15s, box-shadow 0.15s;
+  box-shadow: 0 0 18px var(--java-glow);
+}
+
+.btn-analyze:hover { opacity: 0.87; box-shadow: 0 0 26px rgba(231,111,0,0.32); }
+
+/* SCORE */
+.score-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.score-grade {
+  font-family: var(--mono);
+  font-size: 28px;
+  font-weight: 600;
+  width: 40px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.score-meta strong { display: block; font-size: 13px; color: #fff; margin-bottom: 2px; }
+.score-meta span   { font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+
+.stat-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+
+.sch {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 6px 10px;
+  text-align: center;
+  min-width: 56px;
+}
+
+.sch-num { font-family: var(--mono); font-size: 16px; font-weight: 600; line-height: 1; display: block; margin-bottom: 2px; }
+.sch-lbl { font-family: var(--mono); font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.07em; }
+
+/* FINDINGS */
+.finding {
+  background: var(--bg);
+  border: 1px solid var(--border2);
+  border-left: 3px solid;
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 9px 12px;
+  margin-bottom: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.f-error   { border-left-color: var(--red); }
+.f-warning { border-left-color: var(--yellow); }
+.f-info    { border-left-color: var(--blue); }
+.f-pass    { border-left-color: var(--green); }
+
+.f-head { display: flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+
+.f-badge {
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  border: 1px solid;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fb-error   { color: var(--red);    background: var(--red-dim);   border-color: rgba(248,113,113,0.2); }
+.fb-warning { color: var(--yellow); background: var(--yellow-dim);border-color: rgba(251,191,36,0.2); }
+.fb-info    { color: var(--blue);   background: var(--blue-dim);  border-color: rgba(96,165,250,0.2); }
+.fb-pass    { color: var(--green);  background: var(--green-dim2);border-color: rgba(34,197,94,0.2); }
+
+.f-title { font-weight: 600; color: var(--text); font-size: 11px; }
+.f-body  { color: var(--text-muted); font-size: 11px; line-height: 1.5; }
+
+/* SECTION */
+hr.divider { border: none; border-top: 1px solid var(--border2); margin: 50px 0; }
+.content-section { margin-bottom: 50px; }
+
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.sec-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--java);
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+.sec-rule { flex: 1; height: 1px; background: var(--border2); }
+
+p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 10px; max-width: 820px; }
+p strong { color: var(--text); }
+
+code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--surface2);
+  color: var(--java);
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+}
+
+.code-block {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--java);
+  border-radius: 5px;
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 12px 0;
+  color: var(--text-muted);
+}
+
+.ck { color: var(--java); }
+.cs { color: var(--yellow); }
+.cm { color: var(--text-dim); }
+.cg { color: var(--green); }
+
+.dense-block {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 22px;
+  margin-top: 14px;
+}
+
+.dense-block p { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border2); max-width: none; }
+.dense-block p:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.faq-list {
+  margin-top: 14px;
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.faq-item { border-bottom: 1px solid var(--border2); }
+.faq-item:last-child { border-bottom: none; }
+
+.faq-q {
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: none;
+  padding: 13px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  font-family: var(--sans);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.15s;
+}
+
+.faq-q:hover { background: var(--java-dim2); }
+.faq-arrow { font-family: var(--mono); font-size: 11px; color: var(--text-dim); transition: transform 0.2s; flex-shrink: 0; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+.faq-a {
+  display: none;
+  padding: 0 18px 13px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  border-top: 1px solid var(--border2);
+  background: var(--bg);
+}
+
+.faq-item.open .faq-a { display: block; }
+.faq-a code { color: var(--java); background: var(--java-dim2); }
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tg-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  text-decoration: none;
+  display: block;
+  transition: border-color 0.15s;
+}
+
+.tg-card:hover { border-color: rgba(231,111,0,0.3); }
+.tg-eye  { font-family: var(--mono); font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+.tg-name { font-family: var(--mono); font-size: 12px; color: var(--java); font-weight: 500; }
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 50px; }
+
+.tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 4px 12px;
+  cursor: default;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tag:hover { color: var(--java); border-color: rgba(231,111,0,0.3); }
+
+footer { border-top: 1px solid var(--border2); padding: 20px 0; position: relative; z-index: 1; }
+
+.footer-inner {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+footer p { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin: 0; }
+
+@media (max-width: 640px) {
+  .editor-split { grid-template-columns: 1fr; }
+  .pane-left    { border-right: none; border-bottom: 1px solid var(--border2); }
+}
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Java Code Analyzer",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free Java code analyzer. Paste Java code to detect null pointer risks, resource leaks, missing exception handling, empty catch blocks, string comparison issues, and common Java anti-patterns. Instant analysis, no install required.",
+  "featureList": "Null pointer risk detection, resource leak detection, empty catch block, string comparison issues, magic numbers, raw types, exception handling, code quality score"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I analyze Java code for bugs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Paste your Java code into the analyzer above and click Analyze Java Code. The tool checks for common issues: null pointer risks (calling methods without null checks), resource leaks (streams/connections opened without try-with-resources), empty catch blocks that swallow exceptions, string comparison using == instead of .equals(), raw types (ArrayList instead of ArrayList<T>), and magic numbers. For deeper analysis, use SpotBugs, PMD, or SonarQube."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the most common Java code quality issues?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most common Java issues: (1) NullPointerException risk from missing null checks. (2) Resource leaks from Streams, Connections, or Files not closed in finally or try-with-resources. (3) Empty catch blocks that silently swallow exceptions. (4) String comparison with == instead of .equals(). (5) Raw types (using ArrayList without generic parameter). (6) Checked exceptions caught and ignored. (7) Mutable public fields. (8) Not overriding both hashCode() and equals()."
+      }
     }
-    h1 {
-      color: #a78bfa;
-    }
-    p {
-      max-width: 900px;
-      line-height: 1.6;
-    }
-    .tools {
-      margin-top: 30px;
-    }
-    .tool {
-      background: #1e293b;
-      padding: 14px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-      transition: 0.2s;
-    }
-    .tool:hover {
-      background: #334155;
-    }
-    a {
-      color: #22c55e;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  ]
+}
+</script>
+
 </head>
+
 <body>
+<header>
+  <div class="header-inner">
+    <span class="logo-pill">Java</span>
+    <span class="logo-text"><strong>analyze</strong>-java-code</span>
+  </div>
+</header>
 
-  <h1>Java Core Tools</h1>
+<div class="wrapper">
 
-  <p>
-    A collection of core Java tools for analyzing bytecode, class files, stacktraces,
-    heap dumps, and internal application behavior. Designed for debugging and deep inspection
-    of Java applications.
-  </p>
+  <section class="hero">
+    <p class="hero-eyebrow">// Free Java Analysis Tool</p>
+    <h1><em>Analyze Java</em> Code —<br>Static Analyzer &amp; Bug Detector</h1>
+    <p class="hero-sub">
+      Paste Java code to detect <strong>null pointer risks, resource leaks, empty catch blocks, string comparison bugs</strong>, and common anti-patterns. Instant grade, no install.
+    </p>
+    <div class="pill-row">
+      <span class="pill pill-j">Null Pointer</span>
+      <span class="pill pill-j">Resource Leaks</span>
+      <span class="pill pill-dim">Anti-Patterns</span>
+      <span class="pill pill-dim">Code Quality</span>
+      <span class="pill pill-dim">Free · No install</span>
+    </div>
+  </section>
 
-  <p>
-    These tools help developers understand low-level execution, resolve exceptions,
-    and diagnose memory and runtime issues in complex systems.
-  </p>
+  <!-- TOOL -->
 
-  <div class="tools">
+  <div class="tool-shell">
+    <div class="tool-topbar">
+      <span class="topbar-label">// Java Code Analyzer</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-sm btn-java" id="sampleBtn">Load Sample</button>
+        <button class="btn-sm btn-ghost" id="clearBtn">Clear</button>
+      </div>
+    </div>
 
-    <div class="tool"><a href="./java_bytecode_viewer/">Bytecode Viewer</a></div>
-    <div class="tool"><a href="./java_class_file_analyzer/">Class File Analyzer</a></div>
-    <div class="tool"><a href="./java_code_formatter/">Code Formatter</a></div>
-    <div class="tool"><a href="./java_dependency_analyzer/">Dependency Analyzer</a></div>
-    <div class="tool"><a href="./java_exception_parser/">Exception Parser</a></div>
-    <div class="tool"><a href="./java_heap_dump_analyzer/">Heap Dump Analyzer</a></div>
-    <div class="tool"><a href="./java_jar_inspector/">JAR Inspector</a></div>
-    <div class="tool"><a href="./java_stacktrace_analyzer/">Stacktrace Analyzer</a></div>
+
+<div class="editor-split">
+  <div class="pane-left">
+    <div class="pane-head">
+      <span>// Paste Java code</span>
+      <span id="lineCount">0 lines</span>
+    </div>
+    <textarea class="java-textarea" id="javaInput" spellcheck="false"></textarea>
+  </div>
+  <div class="pane-right">
+    <div class="pane-head"><span>// Analysis results</span></div>
+    <div id="resultsPane">
+      <div class="idle-msg">
+        <span style="font-size:30px;opacity:0.1;">&#9670;</span>
+        <span>Paste Java code and click<br>Analyze Java Code</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="action-bar">
+  <button class="btn-analyze" id="analyzeBtn">Analyze Java Code</button>
+  <button class="btn-sm btn-ghost" id="clearBtn2">Reset</button>
+  <span id="statusMsg" style="font-family:var(--mono);font-size:11px;color:var(--text-dim);"></span>
+</div>
+
 
   </div>
 
-  <!-- SEO LONG TAIL -->
-  <h2>Common Java Debugging & Core Queries</h2>
+  <hr class="divider">
 
-  <ul>
-    <li>how to read java stacktrace step by step</li>
-    <li>java heap dump analysis memory leak detection</li>
-    <li>view java bytecode from class file example</li>
-    <li>how to debug java exception in production</li>
-    <li>java class file structure explained</li>
-    <li>analyze jar file contents java tools</li>
-    <li>common java runtime errors and fixes</li>
-  </ul>
+  <!-- GUIDE -->
 
-  <p>
-    These tools are essential for backend developers, performance engineers,
-    and anyone working with large-scale Java applications.
-  </p>
+  <section class="content-section">
+    <div class="sec-head">
+      <span class="sec-label">Common Java code issues</span>
+      <span class="sec-rule"></span>
+    </div>
+    <p>Analyzing Java code systematically means checking for patterns that frequently cause runtime errors, performance problems, or maintainability issues.</p>
 
-  <!-- snippet SEO -->
-  <pre>
-Exception in thread "main" java.lang.NullPointerException
-  at com.example.Main.main(Main.java:10)
-  </pre>
+
+<div class="code-block"><span class="cm">// BEFORE: Common Java issues in one method</span>
+
+
+<span class="ck">public</span> String getUserEmail(String userId) {
+<span class="ck">try</span> {
+Connection conn = dataSource.getConnection(); <span class="cm">// resource leak</span>
+ResultSet rs = conn.createStatement()
+.executeQuery(<span class="cs">“SELECT email FROM users WHERE id = “</span> + userId);
+<span class="ck">if</span> (rs.next()) {
+String email = rs.getString(<span class="cs">“email”</span>);
+<span class="ck">if</span> (email == <span class="cs">“admin@example.com”</span>) { <span class="cm">// == instead of .equals()</span>
+<span class="ck">return</span> email;
+}
+}
+} <span class="ck">catch</span> (SQLException e) { <span class="cm">// empty catch</span>
+}
+<span class="ck">return</span> <span class="cg">null</span>; <span class="cm">// caller may get NPE</span>
+}
+
+<span class="cm">// AFTER: Corrected version</span>
+<span class="ck">public</span> Optional<String> getUserEmail(String userId) {
+<span class="ck">try</span> (Connection conn = dataSource.getConnection()) { <span class="cm">// try-with-resources</span>
+ResultSet rs = conn.createStatement()
+.executeQuery(<span class="cs">“SELECT email FROM users WHERE id = ?”</span>);
+<span class="ck">if</span> (rs.next()) {
+String email = rs.getString(<span class="cs">“email”</span>);
+<span class="ck">if</span> (<span class="cs">“admin@example.com”</span>.equals(email)) { <span class="cm">// safe .equals()</span>
+<span class="ck">return</span> Optional.of(email);
+}
+}
+} <span class="ck">catch</span> (SQLException e) {
+log.error(<span class="cs">“DB error for userId {}”</span>, userId, e); <span class="cm">// log the exception</span>
+}
+<span class="ck">return</span> Optional.empty(); <span class="cm">// explicit empty instead of null</span>
+}</div>
+
+
+<div class="dense-block">
+  <p><strong>NullPointerException — the #1 Java runtime error</strong><br>
+  NPEs occur when a method is called or field accessed on a <code>null</code> reference. Prevention: use <code>Optional&lt;T&gt;</code> instead of returning null, add null checks before dereferencing, use <code>Objects.requireNonNull()</code> for parameter validation, and annotate with <code>@NonNull</code> / <code>@Nullable</code> for IDE warnings. Java 14+ helpful NPE messages identify exactly which variable was null.</p>
+  <p><strong>Resource leaks — Streams, Connections, Files</strong><br>
+  Any class implementing <code>Closeable</code> or <code>AutoCloseable</code> must be closed: <code>InputStream</code>, <code>OutputStream</code>, <code>Connection</code>, <code>PreparedStatement</code>, <code>ResultSet</code>, <code>FileWriter</code>. Always use <strong>try-with-resources</strong> (<code>try (Resource r = new Resource())</code>) — it guarantees <code>close()</code> is called even if an exception is thrown. Never rely on the garbage collector to close I/O resources.</p>
+  <p><strong>String comparison with ==</strong><br>
+  <code>==</code> compares object identity (memory address), not content. <code>"hello" == "hello"</code> may be <code>true</code> due to string interning, but <code>new String("hello") == "hello"</code> is <code>false</code>. Always use <code>.equals()</code> for string content comparison. Use <code>"literal".equals(variable)</code> pattern (Yoda condition) to avoid NPE if the variable is null.</p>
+</div>
+
+  </section>
+
+  <!-- FAQ -->
+
+  <section class="content-section">
+    <div class="sec-head">
+      <span class="sec-label">FAQ — Analyzing Java code</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How do I analyze Java code for bugs?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a">Paste Java code into the analyzer above. The tool checks for: null pointer risks (methods called without null checks), resource leaks (streams not in try-with-resources), empty catch blocks, string comparison with == instead of .equals(), raw types, and magic numbers. For production code, combine with IDE static analysis (IntelliJ inspections, Eclipse warnings), <strong>SpotBugs</strong>, <strong>PMD</strong>, or <strong>SonarQube</strong>.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What tools analyze Java code quality?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a"><strong>SpotBugs</strong> — detects bug patterns (null dereferences, resource leaks, incorrect thread usage). <strong>PMD</strong> — enforces coding standards, detects copy-paste code. <strong>Checkstyle</strong> — code formatting and style rules. <strong>SonarQube/SonarLint</strong> — comprehensive quality platform with security rules. <strong>IntelliJ IDEA</strong> built-in inspections — real-time analysis. <strong>Error Prone</strong> (Google) — compile-time bug detection as an annotation processor. This tool provides quick pattern-based analysis without any setup.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How do I analyze a Java stacktrace?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a">Read from top to bottom: the first line shows the exception type and message. Lines starting with "at" show the call stack from most recent (top) to oldest (bottom). Find the first line referencing your code (not JDK/library code) — that's where the error originated. The format is <code>at package.ClassName.methodName(FileName.java:lineNumber)</code>. For chained exceptions, look for "Caused by:" lines which show the root cause. Use the stacktrace analyzer subpage for detailed parsing.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What is static analysis in Java?<span class="faq-arrow">&#9660;</span></button>
+        <div class="faq-a">Static analysis examines Java source code or bytecode without executing it, looking for patterns that indicate bugs, security vulnerabilities, or style violations. It differs from runtime analysis (profilers, heap dump analysis) which requires running the program. Tools like SpotBugs analyze bytecode; PMD and Checkstyle analyze source code. This analyzer uses pattern matching on source code text — a lightweight form of static analysis. Full static analysis requires a complete parse tree (AST).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+
+  <section class="content-section">
+    <div class="sec-head">
+      <span class="sec-label">Java analysis tools</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="tools-grid">
+      <a href="java_stacktrace_analyzer/" class="tg-card"><p class="tg-eye">debug //</p><span class="tg-name">Stacktrace Analyzer</span></a>
+      <a href="java_heap_dump_analyzer/" class="tg-card"><p class="tg-eye">memory //</p><span class="tg-name">Heap Dump Analyzer</span></a>
+      <a href="java_bytecode_viewer/" class="tg-card"><p class="tg-eye">bytecode //</p><span class="tg-name">Bytecode Viewer</span></a>
+      <a href="java_exception_parser/" class="tg-card"><p class="tg-eye">exception //</p><span class="tg-name">Exception Parser</span></a>
+      <a href="java_dependency_analyzer/" class="tg-card"><p class="tg-eye">deps //</p><span class="tg-name">Dependency Analyzer</span></a>
+      <a href="java_class_file_analyzer/" class="tg-card"><p class="tg-eye">class //</p><span class="tg-name">Class File Analyzer</span></a>
+    </div>
+  </section>
+
+  <div class="tag-cloud">
+    <span class="tag">analyze java</span>
+    <span class="tag">analyzing java code</span>
+    <span class="tag">java code analyzer</span>
+    <span class="tag">java static analysis</span>
+    <span class="tag">java null pointer detection</span>
+    <span class="tag">java code quality tool</span>
+    <span class="tag">java anti-patterns checker</span>
+    <span class="tag">java resource leak detector</span>
+    <span class="tag">java exception analyzer</span>
+    <span class="tag">spotbugs pmd sonarqube</span>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <p>analyze-java-code &middot; static analyzer &middot; free &middot; github pages</p>
+    <p>null pointer &middot; resource leak &middot; anti-patterns &middot; code quality</p>
+  </div>
+</footer>
+
+<script>
+// ─── ANALYSIS RULES ───
+var RULES = [
+  {
+    id: 'null_deref',
+    level: 'error',
+    title: 'Potential NullPointerException',
+    check: function(code) {
+      var lines = code.split('\n');
+      var hits = [];
+      lines.forEach(function(line, i) {
+        var t = line.trim();
+        if (/\w+\.\w+\(/.test(t) && !/\/\//.test(t.substring(0, t.search(/\w+\.\w+\(/)))) {
+          if (/=\s*null\b/.test(lines.slice(Math.max(0, i - 6), i).join('\n')) ||
+              /return null/.test(lines.slice(0, i).join('\n'))) {
+            hits.push(i + 1);
+          }
+        }
+      });
+      return hits.length > 0
+        ? 'Possible null dereference detected near line(s) ' + hits.slice(0, 3).join(', ') + '. Use Optional<T> or null checks before method calls.'
+        : null;
+    }
+  },
+  {
+    id: 'empty_catch',
+    level: 'error',
+    title: 'Empty catch block — exception swallowed',
+    check: function(code) {
+      return /catch\s*\([^)]+\)\s*\{[\s\n]*\}/.test(code)
+        ? 'Empty catch block found. Silently ignoring exceptions hides bugs. At minimum log the exception: log.error("msg", e) or throw new RuntimeException(e).'
+        : null;
+    }
+  },
+  {
+    id: 'string_eq',
+    level: 'error',
+    title: 'String comparison with == (use .equals())',
+    check: function(code) {
+      if (/==\s*"[^"]*"/.test(code) || /"[^"]*"\s*==/.test(code) ||
+          /!=\s*"[^"]*"/.test(code)) {
+        return 'String compared with == or != found. Use .equals() for content comparison. "literal".equals(variable) avoids NPE if variable is null.';
+      }
+      return null;
+    }
+  },
+  {
+    id: 'resource_leak',
+    level: 'error',
+    title: 'Potential resource leak — use try-with-resources',
+    check: function(code) {
+      var hasResource = /new\s+(FileInputStream|FileOutputStream|BufferedReader|BufferedWriter|InputStreamReader|OutputStreamWriter|FileReader|FileWriter|Connection|Statement|PreparedStatement|ResultSet|Socket|ServerSocket|HttpURLConnection|ZipInputStream|GZIPInputStream)\s*\(/.test(code);
+      var hasTwr = /try\s*\(/.test(code);
+      if (hasResource && !hasTwr) {
+        return 'Closeable resource created without try-with-resources. Wrap in try (Resource r = new Resource()) { } to guarantee close() is called even on exceptions.';
+      }
+      return null;
+    }
+  },
+  {
+    id: 'raw_types',
+    level: 'warning',
+    title: 'Raw type usage detected',
+    check: function(code) {
+      if (/\b(ArrayList|HashMap|HashSet|LinkedList|TreeMap|TreeSet|LinkedHashMap|List|Map|Set|Collection|Iterator|Comparator|Optional)\s+\w+\s*=/.test(code) &&
+          !/\b(ArrayList|HashMap|HashSet|LinkedList|TreeMap|TreeSet|LinkedHashMap|List|Map|Set|Collection|Iterator|Comparator|Optional)\s*</.test(code)) {
+        return 'Raw type usage detected. Use parameterized types: ArrayList<String> instead of ArrayList. Raw types bypass generic type checking.';
+      }
+      return null;
+    }
+  },
+  {
+    id: 'print_debug',
+    level: 'warning',
+    title: 'System.out.println in production code',
+    check: function(code) {
+      var count = (code.match(/System\.out\.print/g) || []).length;
+      if (count > 0) {
+        return count + ' System.out.print call(s) found. Use a logging framework (SLF4J, Log4j2, java.util.logging) instead of stdout for production code.';
+      }
+      return null;
+    }
+  },
+  {
+    id: 'magic_numbers',
+    level: 'warning',
+    title: 'Magic numbers detected',
+    check: function(code) {
+      var lines = code.split('\n');
+      var hits = 0;
+      lines.forEach(function(line) {
+        var t = line.trim();
+        if (!t.startsWith('//') && !t.startsWith('*')) {
+          var nums = t.match(/[^a-zA-Z0-9_.]\d{2,}[^a-zA-Z0-9_.]/g);
+          if (nums && nums.length > 0) hits++;
+        }
+      });
+      if (hits >= 3) {
+        return hits + ' line(s) with numeric literals. Consider extracting to named constants: private static final int MAX_RETRY = 3;';
+      }
+      return null;
+    }
+  },
+  {
+    id: 'catch_exception',
+    level: 'warning',
+    title: 'Catching generic Exception or Throwable',
+    check: function(code) {
+      if (/catch\s*\(\s*(Exception|Throwable)\s+/.test(code)) {
+        return 'Catching Exception or Throwable is too broad and may mask unexpected errors. Catch specific exception types unless you have a good reason to catch all.';
+      }
+      return null;
+    }
+  },
+  {
+    id: 'todo_fixme',
+    level: 'info',
+    title: 'TODO / FIXME comments found',
+    check: function(code) {
+      var todos = (code.match(/\b(TODO|FIXME|HACK|XXX)\b/g) || []).length;
+      if (todos > 0) {
+        return todos + ' TODO/FIXME comment(s) found. Track these as issues — uncommitted TODOs often accumulate in production code.';
+      }
+      return null;
+    }
+  },
+  {
+    id: 'has_tests',
+    level: 'info',
+    title: 'No test annotations detected',
+    check: function(code) {
+      if (!/@Test\b/.test(code) && !/@ParameterizedTest/.test(code) && code.length > 200) {
+        return 'No @Test annotations found. Consider adding JUnit 5 tests. High-quality Java code has tests covering happy path, null inputs, and boundary conditions.';
+      }
+      return null;
+    }
+  }
+];
+
+// ─── DOM HELPERS ───
+function el(tag, cls, text) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function makeFinding(level, title, body) {
+  var lvlMap = { error: 'f-error', warning: 'f-warning', info: 'f-info', pass: 'f-pass' };
+  var bMap   = { error: 'fb-error', warning: 'fb-warning', info: 'fb-info', pass: 'fb-pass' };
+  var lMap   = { error: 'ERROR', warning: 'WARNING', info: 'INFO', pass: 'PASS' };
+  var card = el('div', 'finding ' + (lvlMap[level] || 'f-info'));
+  var head = el('div', 'f-head');
+  head.appendChild(el('span', 'f-badge ' + (bMap[level] || 'fb-info'), lMap[level] || 'INFO'));
+  head.appendChild(el('span', 'f-title', title));
+  card.appendChild(head);
+  if (body) card.appendChild(el('div', 'f-body', body));
+  return card;
+}
+
+function gradeFromFindings(errors, warnings) {
+  var score = 100 - errors * 20 - warnings * 8;
+  score = Math.max(5, Math.min(100, score));
+  if (score >= 90) return { grade: 'A', label: 'Excellent', color: 'var(--green)' };
+  if (score >= 75) return { grade: 'B', label: 'Good',      color: 'var(--blue)' };
+  if (score >= 55) return { grade: 'C', label: 'Moderate',  color: 'var(--yellow)' };
+  if (score >= 35) return { grade: 'D', label: 'Poor',      color: 'var(--java)' };
+  return { grade: 'F', label: 'Critical issues', color: 'var(--red)' };
+}
+
+// ─── ANALYZE ───
+function runAnalysis() {
+  var code = document.getElementById('javaInput').value.trim();
+  var status = document.getElementById('statusMsg');
+
+  if (!code) {
+    status.textContent = 'Paste Java code first.';
+    status.style.color = 'var(--yellow)';
+    return;
+  }
+
+  var findings = [];
+  RULES.forEach(function(rule) {
+    var result = rule.check(code);
+    if (result) {
+      findings.push({ level: rule.level, title: rule.title, body: result });
+    }
+  });
+
+  var errors   = findings.filter(function(f) { return f.level === 'error'; }).length;
+  var warnings = findings.filter(function(f) { return f.level === 'warning'; }).length;
+  var infos    = findings.filter(function(f) { return f.level === 'info'; }).length;
+  var grade    = gradeFromFindings(errors, warnings);
+
+  if (errors === 0 && warnings === 0) {
+    findings.push({ level: 'pass', title: 'No common issues detected', body: 'Code passes all pattern-based checks. For comprehensive analysis consider SpotBugs, PMD, or SonarLint.' });
+  }
+
+  var pane = document.getElementById('resultsPane');
+  pane.innerHTML = '';
+
+  // Score banner
+  var banner = el('div', 'score-banner');
+  banner.style.borderColor = grade.color;
+  var gradeEl = el('div', 'score-grade', grade.grade);
+  gradeEl.style.color = grade.color;
+  var meta = el('div', 'score-meta');
+  var ms = el('strong', null, 'Grade ' + grade.grade + ': ' + grade.label);
+  ms.style.color = grade.color;
+  meta.appendChild(ms);
+  meta.appendChild(el('span', null, errors + ' error(s) · ' + warnings + ' warning(s) · ' + infos + ' info'));
+  banner.appendChild(gradeEl);
+  banner.appendChild(meta);
+  pane.appendChild(banner);
+
+  // Stat chips
+  var chips = el('div', 'stat-chips');
+  function makeChip(val, lbl, color) {
+    var c = el('div', 'sch');
+    var n = el('span', 'sch-num', String(val));
+    n.style.color = color;
+    c.appendChild(n);
+    c.appendChild(el('span', 'sch-lbl', lbl));
+    return c;
+  }
+  chips.appendChild(makeChip(errors,   'Errors',   'var(--red)'));
+  chips.appendChild(makeChip(warnings, 'Warnings', 'var(--yellow)'));
+  chips.appendChild(makeChip(infos,    'Info',     'var(--blue)'));
+  chips.appendChild(makeChip(code.split('\n').length, 'Lines', 'var(--text-muted)'));
+  pane.appendChild(chips);
+
+  findings.forEach(function(f) {
+    pane.appendChild(makeFinding(f.level, f.title, f.body));
+  });
+
+  status.textContent = errors + ' error(s), ' + warnings + ' warning(s).';
+  status.style.color = errors > 0 ? 'var(--red)' : warnings > 0 ? 'var(--yellow)' : 'var(--green)';
+}
+
+// ─── SAMPLE ───
+function loadSample() {
+  var sample = [
+    'import java.sql.*;',
+    'import java.util.ArrayList;',
+    '',
+    'public class UserService {',
+    '    ',
+    '    public String getEmailById(String userId) {',
+    '        // TODO: add input validation',
+    '        Connection conn = null;',
+    '        try {',
+    '            conn = dataSource.getConnection();',
+    '            Statement stmt = conn.createStatement();',
+    '            ResultSet rs = stmt.executeQuery(',
+    '                "SELECT email FROM users WHERE id = " + userId);',
+    '            if (rs.next()) {',
+    '                String email = rs.getString("email");',
+    '                if (email == "admin@company.com") {',
+    '                    return email;',
+    '                }',
+    '            }',
+    '        } catch (Exception e) {',
+    '            // silently ignored',
+    '        }',
+    '        System.out.println("User not found: " + userId);',
+    '        return null;',
+    '    }',
+    '',
+    '    public ArrayList getUserList() {',
+    '        ArrayList users = new ArrayList();',
+    '        // FIXME: implement this',
+    '        return users;',
+    '    }',
+    '}'
+  ].join('\n');
+
+  document.getElementById('javaInput').value = sample;
+  updateLineCount();
+  runAnalysis();
+}
+
+function clearAll() {
+  document.getElementById('javaInput').value = '';
+  document.getElementById('lineCount').textContent = '0 lines';
+  document.getElementById('statusMsg').textContent = '';
+  var pane = document.getElementById('resultsPane');
+  pane.innerHTML = '';
+  var idle = el('div', 'idle-msg');
+  var icon = el('span', null, '\u25c7');
+  icon.style.fontSize = '30px';
+  icon.style.opacity = '0.1';
+  idle.appendChild(icon);
+  idle.appendChild(el('span', null, 'Paste Java code and click\nAnalyze Java Code'));
+  pane.appendChild(idle);
+}
+
+function updateLineCount() {
+  var v = document.getElementById('javaInput').value;
+  var lines = v ? v.split('\n').length : 0;
+  document.getElementById('lineCount').textContent = lines + ' lines';
+}
+
+function toggleFaq(btn) {
+  btn.parentElement.classList.toggle('open');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('javaInput').placeholder = 'Paste Java code here to analyze for bugs and anti-patterns...';
+  document.getElementById('analyzeBtn').addEventListener('click', runAnalysis);
+  document.getElementById('sampleBtn').addEventListener('click', loadSample);
+  document.getElementById('clearBtn').addEventListener('click', clearAll);
+  document.getElementById('clearBtn2').addEventListener('click', clearAll);
+  document.getElementById('javaInput').addEventListener('input', updateLineCount);
+});
+</script>
 
 </body>
 </html>
